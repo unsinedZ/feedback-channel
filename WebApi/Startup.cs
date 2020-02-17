@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
 
 namespace WebApi
 {
@@ -21,6 +22,14 @@ namespace WebApi
             services.AddControllers();
             services.AddApiVersioning();
             services.AddAutoMapper(MapperConfig.Configure, GetType().Assembly);
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Version = "v1",
+                    Title = "Feedback API"
+                });
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -33,6 +42,7 @@ namespace WebApi
             app.UseHttpsRedirection();
             app.UseHsts();
 
+            app.UseSwagger().UseSwaggerUI(options => options.SwaggerEndpoint("/swagger/v1/swagger.json", "Feedback Api v1"));
             app.UseRouting();
 
             app.UseAuthorization();
