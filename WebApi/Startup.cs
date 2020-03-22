@@ -8,6 +8,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using WebApi.OpenApi;
+using WebApi.Providers;
+using WebApi.Repositories;
 
 namespace WebApi
 {
@@ -39,6 +41,9 @@ namespace WebApi
                 c.OperationFilter<DefaultOperationFilter>();
                 // c.IncludeXmlComments("");
             });
+
+            services.Configure<IOptions<ConnectionStringOptions>>(Configuration.GetSection("ConnectionStrings"));
+            services.AddTransient<IFeedbackRepository, FeedbackRepository>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IApiVersionDescriptionProvider provider)

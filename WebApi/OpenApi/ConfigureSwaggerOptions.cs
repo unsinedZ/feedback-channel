@@ -27,7 +27,7 @@ namespace WebApi.OpenApi
             {
                 Title = "Feedback API",
                 Version = description.ApiVersion.ToString(),
-                Description = "Feedback application.",
+                Description = "Feedback application."
             };
 
             if (description.IsDeprecated)

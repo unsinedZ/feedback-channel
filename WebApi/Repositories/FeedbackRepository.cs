@@ -2,8 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Dapper;
+using Microsoft.Extensions.Options;
 using MySql.Data.MySqlClient;
 using WebApi.Projections;
+using WebApi.Providers;
 
 namespace WebApi.Repositories
 {
@@ -19,12 +21,12 @@ namespace WebApi.Repositories
     {
         private readonly string connectionString;
 
-        public FeedbackRepository(string connectionString)
+        public FeedbackRepository(IOptions<ConnectionStringOptions> connectionStringOptions)
         {
             if (string.IsNullOrWhiteSpace(connectionString))
                 throw new ArgumentException("Connection string is null or empty.", nameof(connectionString));
 
-            this.connectionString = connectionString;
+            this.connectionString = connectionStringOptions.Value.Default;
         }
 
         public Task<FeedbackProjection> GetByIdAsync(int id)
